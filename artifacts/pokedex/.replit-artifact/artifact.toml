@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Pokédex"
+description = "A personal Pokédex for Pokémon fans to find creatures by name or number, explore artwork, types, stats and evolutions, compare two Pokémon, and keep a favourites list."
+version = "1.0.0"
+id = "artifacts/pokedex"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20832
+
+[services.development]
+run = "pnpm --filter @workspace/pokedex run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pokedex", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pokedex/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20832"
+BASE_PATH = "/"
